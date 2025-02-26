@@ -9,7 +9,7 @@ const CustomButton = ({
   textStyle,
 }) => {
   return (
-    <Pressable onPress={onPress} className={buttonStyle}>
+    <Pressable onPress={onPress ? onPress : null} className={buttonStyle}>
       <Text className={textStyle}>{title}</Text>
     </Pressable>
   );

@@ -1,17 +1,11 @@
 import { Tabs } from "expo-router";
 import { Image, View, Text } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome";
 const TabsLayout = () => {
-  const TabBarIcon = ({ icons, color, name, focused }) => {
+  const TabBarIcon = ({ color, name, focused }) => {
     return (
       <View>
-        <Image
-          source={{
-            uri: "",
-          }}
-          resizeMode="contain"
-          tintColor={color || "black"}
-          className="w-6 h-6"
-        />
+        <Icon name={name} size={20} color={color} />
         {/* <Text className={`${focused} ? "" : "" ` }> {name} </Text> */}
       </View>
     );
@@ -25,7 +19,7 @@ const TabsLayout = () => {
         tabBarInactiveTintColor: "#CDCDE0",
         tabBarStyle: {
           backgroundColor: "#161622",
-          borderTopWidth: 1,
+          borderTopWidth: 0,
           borderTopColor: "#23533",
         },
       }}
@@ -33,7 +27,7 @@ const TabsLayout = () => {
       <Tabs.Screen
         name="home"
         options={{
-          tile: "Home",
+          title: "Home",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
             <TabBarIcon color={color} name="home" focused={focused} />
@@ -41,32 +35,32 @@ const TabsLayout = () => {
         }}
       />
       <Tabs.Screen
-        name="create"
+        name="bookmark"
         options={{
-          tile: "Create",
+          title: "Bookmark",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon color={color} name="create" focused={focused} />
+            <TabBarIcon color={color} name="bookmark" focused={focused} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="create"
+        options={{
+          title: "Create",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => (
+            <TabBarIcon color={color} name="plus" focused={focused} />
           ),
         }}
       />
       <Tabs.Screen
         name="profile"
         options={{
-          tile: "Profile",
+          title: "Profile",
           headerShown: false,
           tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon color={color} name="profile" focused={focused} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="bookmark"
-        options={{
-          tile: "Bookmark",
-          headerShown: false,
-          tabBarIcon: ({ color, focused }) => (
-            <TabBarIcon color={color} name="bookmark" focused={focused} />
+            <TabBarIcon color={color} name="user" focused={focused} />
           ),
         }}
       />

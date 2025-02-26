@@ -7,6 +7,7 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -15,6 +16,8 @@ import CustomButton from "@/customcomponents/CustomButton";
 import { StatusBar } from "expo-status-bar";
 import AoraLogo from "../../assets/images/logo.png";
 import { Link } from "expo-router";
+import { createUser } from "../../lib/appwrite.js";
+import { useRouter } from "expo-router";
 
 const Singup = () => {
   const [formData, setFormData] = useState({
@@ -22,9 +25,31 @@ const Singup = () => {
     email: "",
     password: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
-  //function to handle form submission
-  const handleSubmit = () => {};
+  //function to signup the user
+  const handleSubmit = async () => {
+    if (!formData.username || !formData.email || !formData.password) {
+      Alert.alert("Error", "Please fill all the fields");
+    }
+    setIsSubmitting(true);
+    try {
+      const result = await createUser(
+        formData.email,
+        formData.password,
+        formData.username
+      );
+
+      //todo set the result from global state
+      router.replace("/home");
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Error", error.message || "Something went wrong");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <SafeAreaView className="flex-1">
       <KeyboardAvoidingView
@@ -77,7 +102,7 @@ const Singup = () => {
               <View className="mt-6">
                 <CustomButton
                   onPress={() => {
-                    handleSubmit;
+                    handleSubmit();
                   }}
                   buttonStyle="bg-[#FF8C00] py-3 px-4 rounded-md"
                   textStyle="text-neutral-800 text-lg font-semibold text-center tracking-wider"

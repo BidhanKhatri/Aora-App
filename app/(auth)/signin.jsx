@@ -1,4 +1,4 @@
-import { View, Text, ScrollView, Image, TextInput } from "react-native";
+import { View, Text, ScrollView, Image, TextInput, Alert } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { StatusBar } from "expo-status-bar";
@@ -6,15 +6,35 @@ import AoraLogo from "../../assets/images/logo.png";
 import FormField from "../../customcomponents/FormField";
 import CustomButton from "@/customcomponents/CustomButton";
 import { Link } from "expo-router";
+import { signIn } from "@/lib/appwrite";
+import { useRouter } from "expo-router";
 
 const SignIn = () => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
 
-  //function to handle form submission
-  const handleSubmit = () => {};
+  //function to signin the user
+  const handleSubmit = async () => {
+    if (!formData.email || !formData.password) {
+      Alert.alert("Error", "Enter both email and password");
+    }
+    setIsSubmitting(true);
+    try {
+      const result = await signIn(formData.email, formData.password);
+
+      //todo set the result from global state
+      router.replace("/home");
+    } catch (error) {
+      console.log(error);
+      Alert.alert("Error", error.message || "Something went wrong");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   return (
     <SafeAreaView>
       <ScrollView
@@ -53,7 +73,7 @@ const SignIn = () => {
           <View className="mt-6">
             <CustomButton
               onPress={() => {
-                handleSubmit;
+                handleSubmit();
               }}
               buttonStyle="bg-[#FF8C00] py-3 px-4 rounded-md"
               textStyle="text-neutral-800 text-lg font-semibold text-center tracking-wider"

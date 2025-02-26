@@ -7,8 +7,16 @@ import EntryImg from "../assets/images/img.png";
 import CustomButton from "@/customcomponents/CustomButton";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { Redirect } from "expo-router";
+import { useGlobalContext } from "@/context/GlobalProvider";
 
 const index = () => {
+  const { isLoading, isLoggedIn } = useGlobalContext();
+
+  if (!isLoading && isLoggedIn) {
+    return <Redirect href="/home" />;
+  }
+
   const router = useRouter();
   return (
     <SafeAreaView className="bg-[#161622]">
