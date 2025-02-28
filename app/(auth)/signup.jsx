@@ -16,8 +16,9 @@ import CustomButton from "@/customcomponents/CustomButton";
 import { StatusBar } from "expo-status-bar";
 import AoraLogo from "../../assets/images/logo.png";
 import { Link } from "expo-router";
-import { createUser } from "../../lib/appwrite.js";
+import { createUser, getCurrentUser } from "../../lib/appwrite.js";
 import { useRouter } from "expo-router";
+import { useGlobalContext } from "@/context/GlobalProvider";
 
 const Singup = () => {
   const [formData, setFormData] = useState({
@@ -27,6 +28,7 @@ const Singup = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
+  const { setUser, setIsLoggedIn } = useGlobalContext();
 
   //function to signup the user
   const handleSubmit = async () => {
@@ -42,6 +44,9 @@ const Singup = () => {
       );
 
       //todo set the result from global state
+      const res = await getCurrentUser();
+      setUser(res);
+      setIsLoggedIn(true);
       router.replace("/home");
     } catch (error) {
       console.log(error);
@@ -51,7 +56,7 @@ const Singup = () => {
     }
   };
   return (
-    <SafeAreaView className="flex-1">
+    <SafeAreaView className="flex-1 bg-[#161622]">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
@@ -59,7 +64,6 @@ const Singup = () => {
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
           <ScrollView
             contentContainerStyle={{ flexGrow: 1 }}
-            className="bg-[#161622]"
             keyboardShouldPersistTaps="handled"
           >
             <View className="flex flex-col min-h-[85vh] m-6  justify-center">

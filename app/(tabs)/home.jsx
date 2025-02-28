@@ -13,14 +13,25 @@ import { FlatList } from "react-native";
 import SearchBar from "@/customcomponents/SearchBar";
 import HorizontalScroll from "@/customcomponents/HorizontalScroll";
 import DummyImg from "../../assets/images/react-logo.png";
-import { getVideos } from "@/lib/appwrite";
+import { getVideos, getLatestVideo } from "@/lib/appwrite";
 import useAppWrite from "@/lib/useAppwrite";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { ResizeMode, Video } from "expo-av";
+import { useGlobalContext } from "@/context/GlobalProvider";
+import { usePathname, useRouter } from "expo-router";
 
 const home = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [playingVideos, setPlayingVideos] = useState({});
   const { data, loading } = useAppWrite(getVideos);
+  const { data: latestVideo } = useAppWrite(getLatestVideo);
+  const [query, setQuery] = useState("");
+  const { isLoading, setIsLoading, isLoggedIn, setIsLoggedIn, user, setUser } =
+    useGlobalContext();
+  // console.log("user details", user);
+
+  const pathname = usePathname();
+  const router = useRouter();
 
   const onRefresh = () => {
     setRefreshing(true);
@@ -38,12 +49,12 @@ const home = () => {
 
   //renderItem component for FlatList
   const renderComponent = ({ item }) => (
-    <View className="my-6 mx-4">
+    <View className="my-4 mx-4">
       <View>
         <View className="flex-row items-center  gap-4">
           <View>
             <Image
-              source={{ uri: item.creator.avatar }}
+              source={{ uri: item.creator?.avatar }}
               resizeMode="contain"
               className="size-10 shrink-0 rounded-md overflow-hidden border border-gray-100"
             />
@@ -53,14 +64,41 @@ const home = () => {
               {item.title}
             </Text>
             <Text className="text-gray-100 text-xs">
-              {item.creator.username}
+              {item.creator?.username}
             </Text>
           </View>
         </View>
       </View>
 
       {playingVideos[item.$id] ? (
-        <Text className="text-gray-100 text-center mt-4">Playing</Text>
+        <View>
+          <Video
+            source={{ uri: item.video }}
+            shouldPlay
+            style={{
+              width: "100%",
+              height: 210,
+              borderRadius: 12,
+              overflow: "hidden",
+              marginTop: 16,
+              position: "relative",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              backgroundColor: "rgba(0,0,0,.9)",
+            }}
+            useNativeControls
+            resizeMode={ResizeMode.CONTAIN}
+            onPlaybackStatusUpdate={(status) => {
+              if (status.didJustFinish) {
+                setPlayingVideos((prev) => ({
+                  ...prev,
+                  [item.$id]: false,
+                }));
+              }
+            }}
+          />
+        </View>
       ) : (
         <TouchableOpacity
           activeOpacity={0.7}
@@ -81,17 +119,17 @@ const home = () => {
 
   //ListHeaderComponent for FlatList
   const headerComponent = () => (
-    <View className="my-6 px-4 ">
+    <View className="my-4 px-4 ">
       <View className="flex-row items-center justify-between">
         <View>
           <Text className="text-sm  text-gray-100">Welcome back</Text>
-          <Text className="text-3xl font-semibold text-white mt-2">
-            Bidhan Khatri
+          <Text className="text-3xl font-semibold text-white mt-0.5">
+            {user?.username}
           </Text>
         </View>
         <View>
           <Image
-            source={DummyImg}
+            source={{ uri: user?.avatar }}
             resizeMode="contain"
             className="w-10 h-10 shrink-0 rounded-full overflow-hidden"
           />
@@ -103,12 +141,12 @@ const home = () => {
       </View>
 
       <View className="my-6">
-        <Text className="text-gray-100">Featured Videos</Text>
+        <Text className="text-gray-100">Latest Videos</Text>
       </View>
 
       {/* add another flat list for horizontal scroll */}
       <View>
-        <HorizontalScroll posts={[{ id: 101 }, { id: 201 }]} />
+        <HorizontalScroll posts={latestVideo} />
       </View>
     </View>
   );

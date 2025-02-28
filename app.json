@@ -16,7 +16,7 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package":"com.bidhan.aora"
+      "package": "com.bidhan.aora"
     },
     "web": {
       "bundler": "metro",
@@ -33,7 +33,15 @@
           "resizeMode": "contain",
           "backgroundColor": "#ffffff"
         }
+      ],
+      [
+        "expo-video",
+        {
+          "supportsBackgroundPlayback": true,
+          "supportsPictureInPicture": true
+        }
       ]
+  
     ],
     "experiments": {
       "typedRoutes": true
