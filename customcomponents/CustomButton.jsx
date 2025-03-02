@@ -12,7 +12,7 @@ const CustomButton = ({
     <TouchableOpacity
       activeOpacity={0.7}
       onPress={onPress ? onPress : null}
-      className={buttonStyle}
+      className="bg-[#FF8C00] px-10 py-4 rounded-md w-full flex items-center justify-center"
     >
       <Text className={textStyle}>{title}</Text>
     </TouchableOpacity>

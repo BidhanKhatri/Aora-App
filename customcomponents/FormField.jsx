@@ -11,7 +11,7 @@ const FormField = ({
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <View className="mt-6">
+    <View className="mt-0">
       {/* Label */}
       <Text className="text-gray-100 text-xl tracking-wider">{labelText}</Text>
 
@@ -19,7 +19,7 @@ const FormField = ({
       <View
         className={`border   ${
           isFocused ? "border-[#FF8C00]" : "border-neutral-800"
-        } rounded-md bg-black/80 mt-2 p-2`}
+        } rounded-md bg-[#18181B] mt-2 p-2`}
       >
         {/* Move text-gray-100 into TextInput */}
         <TextInput

@@ -43,7 +43,7 @@ const index = () => {
             <Text className="text-neutral-400  font-semibold text-center  text-wrap px-10 mt-6">
               Where Creativity Meets Innovation: Embark on a Journey of
               Limitless Exploration with Aora{" "}
-            </Text>
+            </Text>@
           </View>
 
           <CustomButton
