@@ -77,22 +77,28 @@ const Singup = () => {
               </Text>
 
               <View className=" mt-6">
-                <FormField
-                  labelText="Username"
-                  placeholderText="enter your username"
-                  handleTextChange={(text) =>
-                    setFormData({ ...formData, username: text })
-                  }
-                  value={formData.username}
-                />
-                <FormField
-                  labelText="Email"
-                  placeholderText="enter your email"
-                  handleTextChange={(text) =>
-                    setFormData({ ...formData, email: text })
-                  }
-                  value={formData.email}
-                />
+                <View>
+                  <FormField
+                    labelText="Username"
+                    placeholderText="enter your username"
+                    handleTextChange={(text) =>
+                      setFormData({ ...formData, username: text })
+                    }
+                    value={formData.username}
+                  />
+                </View>
+                <View className="mt-4">
+                  <FormField
+                    labelText="Email"
+                    placeholderText="enter your email"
+                    handleTextChange={(text) =>
+                      setFormData({ ...formData, email: text })
+                    }
+                    value={formData.email}
+                  />
+                </View>
+                <View className="mt-4">
+
                 <FormField
                   labelText="Password"
                   placeholderText="enter your password"
@@ -101,6 +107,7 @@ const Singup = () => {
                   }
                   value={formData.password}
                 />
+                </View>
               </View>
 
               <View className="mt-6">

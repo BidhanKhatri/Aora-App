@@ -25,6 +25,9 @@ const Create = () => {
     thumbnail: null,
     prompt: "",
   });
+  console.log(form.video?.uri);
+  console.log(form.video);
+  console.log(form.thumbnail?.uri);
 
   const { user } = useGlobalContext();
 
@@ -56,8 +59,9 @@ const Create = () => {
       // Add upload logic here
       await createVideo({
         ...form,
-        userId: user.$id,
+        userId: user?.$id,
       });
+      Alert.alert("Success", "Video uploaded successfully");
     } catch (error) {
       console.log(error);
       Alert.alert("Error", error.message || "Something went wrong");
@@ -90,16 +94,19 @@ const Create = () => {
             className="flex items-center justify-center h-56 bg-[#18181B] w-full rounded-2xl mt-2 border border-dashed border-gray-500"
             onPress={() => pickDocument("video")}
           >
-            <View>
+            <View className="flex items-center justify-center w-full h-full">
               {form.video ? (
                 <Video
-                  source={{ uri: form.video.uri }}
+                  source={{ uri: form.video?.uri }}
                   resizeMode={ResizeMode.COVER}
+                  shouldPlay
                   style={{
                     width: "100%",
-                    height: 224,
-                    borderRadius: 40,
+                    height: "100%",
+                    borderRadius: 10,
                   }}
+                  useNativeControls={false}
+                  isLooping
                 />
               ) : (
                 <View className="flex items-center">
@@ -118,17 +125,17 @@ const Create = () => {
 
           <TouchableOpacity
             activeOpacity={0.7}
-            className="flex items-center justify-center h-14 bg-[#18181B] w-full rounded-2xl mt-2 border border-dashed border-gray-500"
+            className="flex items-center justify-center h-52 bg-[#18181B] w-full rounded-2xl mt-2 border border-dashed border-gray-500"
             onPress={() => pickDocument("image")}
           >
-            <View>
+            <View className="flex items-center justify-center w-full">
               {form.thumbnail ? (
                 <Image
-                  source={{ uri: form.thumbnail.uri }}
+                  source={{ uri: form.thumbnail?.uri }}
                   style={{
                     width: "100%",
-                    height: 224,
-                    borderRadius: 40,
+                    height: "100%",
+                    borderRadius: 10,
                     resizeMode: "cover",
                   }}
                 />
@@ -155,6 +162,7 @@ const Create = () => {
             title="Upload Video"
             onPress={handleUpload}
             textStyle="text-neutral-800 font-semibold text-lg tracking-wider"
+            status={uploading}
           />
         </View>
       </ScrollView>

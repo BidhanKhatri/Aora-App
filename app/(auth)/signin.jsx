@@ -74,23 +74,27 @@ const SignIn = () => {
               Signin to Aora app
             </Text>
 
-            <View className=" mt-6">
-              <FormField
-                labelText="Email"
-                placeholderText="enter your email"
-                handleTextChange={(text) =>
-                  setFormData({ ...formData, email: text })
-                }
-                value={formData.email}
-              />
-              <FormField
-                labelText="Password"
-                placeholderText="enter your password"
-                handleTextChange={(text) =>
-                  setFormData({ ...formData, password: text })
-                }
-                value={formData.password}
-              />
+            <View className=" mt-6 ">
+              <View>
+                <FormField
+                  labelText="Email"
+                  placeholderText="enter your email"
+                  handleTextChange={(text) =>
+                    setFormData({ ...formData, email: text })
+                  }
+                  value={formData.email}
+                />
+              </View>
+              <View className="mt-6">
+                <FormField
+                  labelText="Password"
+                  placeholderText="enter your password"
+                  handleTextChange={(text) =>
+                    setFormData({ ...formData, password: text })
+                  }
+                  value={formData.password}
+                />
+              </View>
             </View>
 
             <TouchableOpacity activeOpacity={0.7} className="mt-6">

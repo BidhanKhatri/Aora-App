@@ -19,7 +19,7 @@ const index = () => {
 
   const router = useRouter();
   return (
-    <SafeAreaView className="bg-[#161622]">
+    <SafeAreaView className="bg-[#161622] px-4">
       <ScrollView contentContainerStyle={{ height: "100%" }}>
         <View className=" flex flex-col min-h-[92vh] items-center justify-center gap-6">
           <Image
@@ -43,7 +43,7 @@ const index = () => {
             <Text className="text-neutral-400  font-semibold text-center  text-wrap px-10 mt-6">
               Where Creativity Meets Innovation: Embark on a Journey of
               Limitless Exploration with Aora{" "}
-            </Text>@
+            </Text>
           </View>
 
           <CustomButton

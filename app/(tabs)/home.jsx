@@ -24,7 +24,7 @@ const home = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [playingVideos, setPlayingVideos] = useState({});
   const { data, loading } = useAppWrite(getVideos);
-  const { data: latestVideo } = useAppWrite(getLatestVideo);
+  const { data: latestVideo, refetch } = useAppWrite(getLatestVideo);
   const [query, setQuery] = useState("");
   const { isLoading, setIsLoading, isLoggedIn, setIsLoggedIn, user, setUser } =
     useGlobalContext();
@@ -35,8 +35,8 @@ const home = () => {
 
   const onRefresh = () => {
     setRefreshing(true);
-    //if new data available
-    // refresh();
+
+    refetch();
     setRefreshing(false);
   };
 
